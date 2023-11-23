@@ -24,4 +24,8 @@ public class PhotoService {
     public Photo getPhotoDetail(Integer id) {
         return photoRepository.findById(id).orElseThrow(() -> new PhotoNotFoundException("Photo not found"));
     }
+
+    public Photo savePhoto(Photo photo) {
+        return photoRepository.save(photo);
+    }
 }
