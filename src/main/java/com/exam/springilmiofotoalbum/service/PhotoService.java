@@ -28,4 +28,9 @@ public class PhotoService {
     public Photo savePhoto(Photo photo) {
         return photoRepository.save(photo);
     }
+
+    public void deletePhoto(Integer id) {
+        Photo photoToDelete = photoRepository.findById(id).orElseThrow(() -> new PhotoNotFoundException("Photo not found"));
+        photoRepository.delete(photoToDelete);
+    }
 }

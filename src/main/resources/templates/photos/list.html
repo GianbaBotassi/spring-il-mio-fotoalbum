@@ -39,7 +39,14 @@
             <td th:text="*{description}"></td>
             <td th:text="*{isVisible} ? 'yes':'no'"></td>
             <td><img style="width:100px;height:50px;" th:src="*{picture}" th:alt="*{description}"></td>
-            <td><a th:href="@{/photos/show/{id}(id=*{id})}"><i class="fa-solid fa-circle-info"></i></a></td>
+            <td class="d-flex gap-2">
+                <a th:href="@{/photos/show/{id}(id=*{id})}"><i class="fa-solid fa-circle-info"></i></a>
+                <form th:action="@{/photos/delete/{id}(id=*{id})}" method="POST">
+                    <button type="submit" class="border-0 bg-white" onclick="return confirm('Delete?')">
+                        <i class="text-danger fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

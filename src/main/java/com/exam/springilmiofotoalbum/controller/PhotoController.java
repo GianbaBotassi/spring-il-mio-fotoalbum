@@ -47,4 +47,14 @@ public class PhotoController {
         return "redirect:/photos/show/" + photoSaved.getId();
     }
 
+    @PostMapping("/delete/{id}")
+    public String deletePhoto(@PathVariable Integer id) {
+        try {
+            photoService.deletePhoto(id);
+            return "redirect:/photos";
+        } catch (PhotoNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+    }
+
 }
