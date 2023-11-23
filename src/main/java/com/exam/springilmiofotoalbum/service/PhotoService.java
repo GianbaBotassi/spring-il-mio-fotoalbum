@@ -1,5 +1,6 @@
 package com.exam.springilmiofotoalbum.service;
 
+import com.exam.springilmiofotoalbum.exceptions.PhotoNotFoundException;
 import com.exam.springilmiofotoalbum.model.Photo;
 import com.exam.springilmiofotoalbum.repository.PhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,5 +19,9 @@ public class PhotoService {
             return photoRepository.findByTitleContainingIgnoreCase(search.get());
         }
         return photoRepository.findAll();
+    }
+
+    public Photo getPhotoDetail(Integer id) {
+        return photoRepository.findById(id).orElseThrow(() -> new PhotoNotFoundException("Photo not found"));
     }
 }

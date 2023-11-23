@@ -14,6 +14,14 @@ public class Photo {
     private String picture;
     private boolean isVisible = true;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }

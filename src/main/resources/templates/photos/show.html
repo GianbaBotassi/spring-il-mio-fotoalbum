@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/resources :: headResources('Photo Album')">
+    <style>
+
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
+<nav th:replace="fragments/navbar :: topNavbar('Photo List')"></nav>
+<div class="container">
+    <h1 class="mt-4">Photo Detail</h1>
+    <div id="photoDetail" th:object="${photoDetail}">
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <img style="max-width:100%" th:src="${photoDetail.picture}" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h2 th:text="${photoDetail.title}" class="mt-4"></h2>
 
+                <p th:text="${photoDetail.description}"></p>
+                <p>
+                    <strong>Visibility:</strong>
+                    <span th:text="${photoDetail.isVisible ? 'Visible' : 'Hidden'}"></span>
+                </p>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <a class="btn btn-secondary" th:href="@{/photos}">Back to Album</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>
