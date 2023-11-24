@@ -22,13 +22,13 @@
             <div class="col-7">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="visibility" id="visible" checked>
-                    <label class="form-check-label" for="visible" value="1" th:field="isVisible">
+                    <label class="form-check-label" for="visible" th:value="${true}" th:field="${isVisible}">
                         Visible
                     </label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="visibility" id="notVisible">
-                    <label class="form-check-label" for="notVisible" value="0" th:field="isVisible">
+                    <label class="form-check-label" for="notVisible" th:value="${false}" th:field="${isVisible}">
                         Not Visible
                     </label>
                 </div>
@@ -48,7 +48,7 @@
         <!--            </div>-->
         <!--        </div>-->
         <div class="mt-3">
-            <button class="btn btn-primary" type="submit">Add Photo</button>
+            <button class="btn btn-primary" type="submit" th:text="isEdit ? 'Update Photo' : 'Add photo'"></button>
             <a th:href="@{/photos}" class="btn btn-secondary">Back</a>
         </div>
     </form>

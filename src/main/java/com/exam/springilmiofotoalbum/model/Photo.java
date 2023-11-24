@@ -1,6 +1,7 @@
 package com.exam.springilmiofotoalbum.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "photos")
@@ -9,10 +10,13 @@ public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotBlank(message = "Field title cannot be empty")
     private String title;
+    @NotBlank(message = "Field description cannot be empty")
     private String description;
+    @NotBlank(message = "Field picture cannot be empty")
     private String picture;
-    private boolean isVisible = true;
+    private boolean isVisible;
 
     public Integer getId() {
         return id;

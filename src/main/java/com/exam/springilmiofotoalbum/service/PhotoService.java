@@ -21,12 +21,22 @@ public class PhotoService {
         return photoRepository.findAll();
     }
 
-    public Photo getPhotoDetail(Integer id) {
+    public Photo getPhoto(Integer id) {
         return photoRepository.findById(id).orElseThrow(() -> new PhotoNotFoundException("Photo not found"));
     }
 
     public Photo savePhoto(Photo photo) {
         return photoRepository.save(photo);
+    }
+
+    public Photo editPhoto(Photo formPhoto) {
+        Photo photoToEdit = getPhoto(formPhoto.getId());
+        photoToEdit.setTitle(formPhoto.getTitle());
+        photoToEdit.setDescription(formPhoto.getDescription());
+        photoToEdit.setPicture(formPhoto.getPicture());
+        photoToEdit.setVisible(formPhoto.isVisible());
+
+        return savePhoto(photoToEdit);
     }
 
     public void deletePhoto(Integer id) {
