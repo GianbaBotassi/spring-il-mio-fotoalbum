@@ -35,6 +35,7 @@ public class PhotoService {
         photoToEdit.setDescription(formPhoto.getDescription());
         photoToEdit.setPicture(formPhoto.getPicture());
         photoToEdit.setVisible(formPhoto.isVisible());
+        photoToEdit.setCategories(formPhoto.getCategories());
 
         return savePhoto(photoToEdit);
     }

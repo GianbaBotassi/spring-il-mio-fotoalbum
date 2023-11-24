@@ -2,6 +2,7 @@ package com.exam.springilmiofotoalbum.controller;
 
 import com.exam.springilmiofotoalbum.exceptions.PhotoNotFoundException;
 import com.exam.springilmiofotoalbum.model.Photo;
+import com.exam.springilmiofotoalbum.service.CategoryService;
 import com.exam.springilmiofotoalbum.service.PhotoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class PhotoController {
 
     @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     //Photo list with or without search word
     @GetMapping
@@ -43,6 +47,7 @@ public class PhotoController {
     @GetMapping("/create")
     public String createPhoto(Model model) {
         model.addAttribute("photo", new Photo());
+        model.addAttribute("categories", categoryService.getCategList());
         return "photos/form";
     }
 
@@ -51,9 +56,10 @@ public class PhotoController {
     public String storePhoto(@Valid @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "/photos/form";
+        } else {
+            Photo photoSaved = photoService.savePhoto(formPhoto);
+            return "redirect:/photos/show/" + photoSaved.getId();
         }
-        Photo photoSaved = photoService.savePhoto(formPhoto);
-        return "redirect:/photos/show/" + photoSaved.getId();
     }
 
     //Form edit photo with data
@@ -61,6 +67,7 @@ public class PhotoController {
     public String editPhoto(@PathVariable Integer id, Model model) {
         try {
             model.addAttribute("photo", photoService.getPhoto(id));
+            model.addAttribute("categories", categoryService.getCategList());
         } catch (PhotoNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/resources :: headResources('Home')">
+</head>
+<body>
+<nav th:replace="fragments/navbar :: topNavbar('Home')"></nav>
+<div class="container text-center">
+    <h3>Welcome to Photo Album back-end</h3>
+    <p>Choose what you wanna do..</p>
+    <div class="d-flex justify-content-center gap-4">
+        <a class="btn btn-secondary" th:href="@{/photos}">Photo Album</a>
+        <a class="btn btn-secondary" th:href="@{/photos}">Categories</a>
+    </div>
+</div>
+</body>
+</html>

@@ -29,6 +29,7 @@
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Visibility</th>
+            <th scope="col">Categories</th>
             <th scope="col">Picture</th>
             <th scope="col">Actions</th>
         </tr>
@@ -38,11 +39,14 @@
             <td th:text="*{title}"></td>
             <td th:text="*{description}"></td>
             <td th:text="*{visible} ? 'yes':'no'"></td>
+            <td>
+                <span class="badge bg-primary me-1" th:each="cat : *{categories}" th:text="${cat.name}"></span>
+            </td>
             <td><img style="width:100px;height:50px;" th:src="*{picture}" th:alt="*{description}"></td>
-            <td class="d-flex gap-2">
+            <td class="gap-2">
                 <a th:href="@{/photos/show/{id}(id=*{id})}"><i class="fa-solid fa-circle-info"></i></a>
-                <a th:href="@{/photos/edit/{id}(id=*{id})}"><i class="fa-solid fa-pen-to-square"></i></a>
-                <form th:action="@{/photos/delete/{id}(id=*{id})}" method="POST">
+                <a class="ms-2" th:href="@{/photos/edit/{id}(id=*{id})}"><i class="fa-solid fa-pen-to-square"></i></a>
+                <form class="d-inline" th:action="@{/photos/delete/{id}(id=*{id})}" method="POST">
                     <button type="submit" class="border-0 bg-white" onclick="return confirm('Delete?')">
                         <i class="text-danger fa-solid fa-trash"></i>
                     </button>

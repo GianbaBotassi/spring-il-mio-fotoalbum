@@ -8,16 +8,19 @@
     <h1 class="mt-4">Photo Detail</h1>
     <div id="photoDetail" th:object="${photoDetail}">
         <div class="row mt-4">
-            <div class="col-md-6">
-                <img style="max-width:100%" th:src="${photoDetail.picture}" alt="" class="img-fluid">
+            <div class="col-md-6" style="width: 500px; height: 400px; overflow: hidden;">
+                <img style="width: 100%; height: 100%; object-fit: cover;" th:src="*{picture}" alt="" class="img-fluid">
             </div>
             <div class="col-md-6">
-                <h2 th:text="${photoDetail.title}" class="mt-4"></h2>
+                <h2 th:text="*{title}" class="mt-4"></h2>
 
-                <p th:text="${photoDetail.description}"></p>
+                <p th:text="*{description}"></p>
                 <p>
                     <strong>Visibility:</strong>
-                    <span th:text="${photoDetail.visible ? 'Visible' : 'Hidden'}"></span>
+                    <span th:text="*{visible ? 'Visible' : 'Hidden'}"></span>
+                </p>
+                <p><strong>Categories:</strong>
+                    <span class="me-2 badge bg-secondary" th:each="cat : *{categories}" th:text="${cat.name}"></span>
                 </p>
             </div>
         </div>
