@@ -16,7 +16,8 @@ public class Photo {
     private String description;
     @NotBlank(message = "Field picture cannot be empty")
     private String picture;
-    private boolean isVisible;
+
+    private boolean visible;
 
     public Integer getId() {
         return id;
@@ -51,10 +52,10 @@ public class Photo {
     }
 
     public boolean isVisible() {
-        return isVisible;
+        return visible;
     }
 
     public void setVisible(boolean visible) {
-        isVisible = visible;
+        this.visible = visible;
     }
 }

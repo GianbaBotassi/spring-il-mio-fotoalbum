@@ -20,18 +20,23 @@
             <div class="col-6 mb-3"
                  th:insert="/fragments/components :: formField('text','Photo Url','picture')"></div>
             <div class="col-7">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="visibility" id="visible" checked>
-                    <label class="form-check-label" for="visible" th:value="${true}" th:field="${isVisible}">
-                        Visible
-                    </label>
+                <div class="d-flex align-items-center justify-content-start gap-3 mb-3" id="visible">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="visible" value="true"
+                               id="isVisible" th:field="*{visible}">
+                        <label class="form-check-label" for="isVisible">
+                            Visible
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="visible" value="false"
+                               id="isNotVisible" th:field="*{visible}">
+                        <label class="form-check-label" for="isNotVisible">
+                            Not Visible
+                        </label>
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="visibility" id="notVisible">
-                    <label class="form-check-label" for="notVisible" th:value="${false}" th:field="${isVisible}">
-                        Not Visible
-                    </label>
-                </div>
+
             </div>
         </div>
         <!--        <div class="col-4 mb-2">-->
