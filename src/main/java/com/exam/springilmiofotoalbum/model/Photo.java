@@ -2,6 +2,7 @@ package com.exam.springilmiofotoalbum.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +16,14 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotBlank(message = "Field title cannot be empty")
+    @Size(max = 255, message = "Title must be at most 255 characters")
     private String title;
     @NotBlank(message = "Field description cannot be empty")
+    @Size(max = 1000, message = "Description must be at most 1000 characters")
     private String description;
     @NotBlank(message = "Field picture cannot be empty")
     private String picture;
+    private boolean visible;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "categories_photos",
@@ -28,7 +32,6 @@ public class Photo {
     private List<Category> categories = new ArrayList<>();
 
     //Getters and setters
-    private boolean visible;
 
     public Integer getId() {
         return id;

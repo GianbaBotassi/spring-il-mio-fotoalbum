@@ -4,13 +4,14 @@
 </head>
 <body>
 <nav th:replace="fragments/navbar :: topNavbar('Home')"></nav>
-<div class="container text-center">
-    <h3>Welcome to Photo Album back-end</h3>
-    <p>Choose what you wanna do..</p>
+<div class="container text-center mt-4">
+    <h3>Welcome to Photo Share</h3>
+    <p>Choose what you want to do..</p>
     <div class="d-flex justify-content-center gap-4">
-        <a class="btn btn-secondary" th:href="@{/photos}">Photo Album</a>
-        <a class="btn btn-secondary" th:href="@{/photos}">Categories</a>
+        <a class="btn btn-secondary" th:href="@{/photos}">Explore Photos</a>
+        <a class="btn btn-secondary" th:href="@{/photos}">Browse Categories</a>
     </div>
 </div>
+<th:block th:replace="fragments/resources :: jsResources"></th:block>
 </body>
 </html>

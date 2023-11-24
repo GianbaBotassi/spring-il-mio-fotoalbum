@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/categories")
@@ -46,7 +47,7 @@ public class CategoryController {
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteCat(@PathVariable Integer id, Model model) {
+    public String deleteCat(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
         try {
             Category category = categoryService.getCateg(id);
             //Cycle list photos with category that want to remove
@@ -55,7 +56,7 @@ public class CategoryController {
                 photo.getCategories().remove(category);
                 photoService.savePhoto(photo);
             }
-
+            redirectAttributes.addFlashAttribute("message", "Removed '" + category.getName() + "' for each photo it was associated with!");
             categoryService.deleteCateg(id);
         } catch (CategoryNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

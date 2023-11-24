@@ -1,11 +1,11 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <body>
-<nav th:fragment="topNavbar(area)" class="navbar navbar-expand-lg navbar-light bg-light row align-items-center">
+<nav th:fragment="topNavbar(area)"
+     class="navbar navbar-expand-lg navbar-light bg-white row align-items-center border-bottom">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/home}">
-            <!--                    <img style="width:100px" th:src="@{/logo.jpg}"-->
-            <!--                         alt="application logo">-->
-            Logo
+        <a class="navbar-brand" th:href="@{/}">
+            <img style="width:150px" th:src="@{/logo.png}"
+                 alt="application logo">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -27,10 +27,10 @@
                 </li>
 
             </ul>
-            <!--            <div>-->
-            <!--                <div class="mb-2" sec:authentication="name"></div>-->
-            <!--                <a class="btn btn-primary" href="/logout">Logout</a></div>-->
         </div>
+        <div class="me-3">
+            <div class="mb-2" sec:authentication="name"></div>
+            <a class="btn btn-primary" href="/logout">Logout</a></div>
     </div>
 </nav>
 </body>

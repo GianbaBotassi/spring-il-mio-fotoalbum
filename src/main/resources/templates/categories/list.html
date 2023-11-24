@@ -4,30 +4,40 @@
 </head>
 <body>
 <nav th:replace="fragments/navbar :: topNavbar('Categories')"></nav>
-<div class="container" style="width:500px">
+<div class="container mt-2" style="width:500px">
+    <div th:if="${message !=null}" class="alert alert-success alert-dismissible fade show mt-2">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="text-center">
         <h2>Categories</h2>
         <form
                 th:action="@{/categories}"
                 method="POST"
                 th:object="${category}"
-                class="d-flex justify-content-center flex-column align-items-center"
         >
-            <div class="mb-3" th:insert="/fragments/components :: formField('text','Name', 'name')"></div>
+            <div class="d-flex justify-content-center gap-2">
+                <div class="mb-3" th:insert="/fragments/components :: formField('text','Name', 'name')"></div>
+                <div class="mb-3"
+                     th:insert="/fragments/components :: formField('text','Badge Color', 'badgeColor')"></div>
+            </div>
             <button class="btn btn-primary mb-3" type="submit">Add category</button>
         </form>
     </div>
-    <table class="table">
+    <table class="table text-center">
         <thead>
-        <tr>
-            <th scope="col-10">Name</th>
-            <th scope="col-2">Actions</th>
+        <tr class="h5">
+            <th scope="col text-center">Name</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="cat : ${categories}" th:object="${cat}">
-            <td class="col-10" th:text="*{name}"></td>
-            <td class="col-2">
+            <td class="col">
+                <span class="rounded py-1 px-2" th:style="'background-color: ' + *{badgeColor} + '; color:white'"
+                      th:text="*{name}"></span>
+            </td>
+            <td class="col">
                 <form th:action="@{/categories/delete/{id}(id=*{id})}" method="POST">
                     <button type="submit" class="border-0 bg-white" onclick="return confirm('Delete?')">
                         <i class="text-danger fa-solid fa-trash"></i>
@@ -38,5 +48,6 @@
         </tbody>
     </table>
 </div>
+<th:block th:replace="fragments/resources :: jsResources"></th:block>
 </body>
 </html>

@@ -5,11 +5,16 @@
 <body>
 <nav th:replace="fragments/navbar :: topNavbar('Photo Album')"></nav>
 <div class="container">
-    <div class="row">
+    <div th:if="${message !=null}" class="alert alert-success alert-dismissible fade show mt-2">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div class="row mt-2">
         <div class="row col-5">
             <h1 class="col-6">Album</h1>
-            <a class="col-6" th:href="@{/photos/create}">
+            <a class="col-6 text-decoration-none d-flex align-items-center gap-2" th:href="@{/photos/create}">
                 <i class="display-5 fa-solid fa-square-plus"></i>
+                <span>Add new photo</span>
             </a>
         </div>
         <div class="col-7">
@@ -23,9 +28,9 @@
             </form>
         </div>
     </div>
-    <table class="table">
+    <table class="table text-center mt-2 align-middle">
         <thead>
-        <tr>
+        <tr class="h5">
             <th scope="col">Title</th>
             <th scope="col">Description</th>
             <th scope="col">Visibility</th>
@@ -36,13 +41,29 @@
         </thead>
         <tbody>
         <tr th:each="photo : ${photos}" th:object="${photo}">
-            <td th:text="*{title}"></td>
-            <td th:text="*{description}"></td>
-            <td th:text="*{visible} ? 'yes':'no'"></td>
+            <td th:text="*{#strings.capitalize(title)}"></td>
+            <td th:text="*{#strings.capitalize(description)}"></td>
             <td>
-                <span class="badge bg-primary me-1" th:each="cat : *{categories}" th:text="${cat.name}"></span>
+                <span th:if="*{visible}">
+                    <i class="fa-solid fa-eye"></i>
+                </span>
+                <span th:unless="*{visible}">
+                    <i class="fa-solid fa-eye-slash"></i>
+                </span>
             </td>
-            <td><img style="width:100px;height:50px;" th:src="*{picture}" th:alt="*{description}"></td>
+
+            <td>
+                <div th:if="*{categories.size() > 0}">
+                <span class="badge me-1" th:style="'background-color: ' + ${cat.badgeColor} + '; color:white'"
+                      th:each="cat : *{categories}" th:text="${cat.name}"></span>
+                </div>
+                <div th:unless="*{categories.size() > 0}">No categories</div>
+            </td>
+            <td style="width: 200px; height: 100px; overflow: hidden;" class="rounded"><img class="rounded"
+                                                                                            style="width: 100%; height: 100%; object-fit: cover;"
+                                                                                            th:src="*{picture}"
+                                                                                            th:alt="*{description}">
+            </td>
             <td class="gap-2">
                 <a th:href="@{/photos/show/{id}(id=*{id})}"><i class="fa-solid fa-circle-info"></i></a>
                 <a class="ms-2" th:href="@{/photos/edit/{id}(id=*{id})}"><i class="fa-solid fa-pen-to-square"></i></a>
@@ -56,5 +77,6 @@
         </tbody>
     </table>
 </div>
+<th:block th:replace="fragments/resources :: jsResources"></th:block>
 </body>
 </html>

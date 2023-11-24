@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -53,8 +54,9 @@ public class PhotoController {
 
     //store new photo
     @PostMapping("/create")
-    public String storePhoto(@Valid @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult) {
+    public String storePhoto(@Valid @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.getCategList());
             return "/photos/form";
         } else {
             Photo photoSaved = photoService.savePhoto(formPhoto);
@@ -76,9 +78,10 @@ public class PhotoController {
 
     //update photo
     @PostMapping("/edit/{id}")
-    public String updatePhoto(@Valid @PathVariable Integer id, @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult) {
+    public String updatePhoto(@Valid @PathVariable Integer id, @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult, Model model) {
         formPhoto.setId(id);
         if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.getCategList());
             return "/photos/form";
         }
         photoService.editPhoto(formPhoto);
@@ -87,9 +90,12 @@ public class PhotoController {
 
     //Delete photo
     @PostMapping("/delete/{id}")
-    public String deletePhoto(@PathVariable Integer id) {
+    public String deletePhoto(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         try {
+            Photo photoMess = photoService.getPhoto(id);
             photoService.deletePhoto(id);
+            redirectAttributes.addFlashAttribute("message", "Delete '" + photoMess.getTitle() + "' photo!");
+
             return "redirect:/photos";
         } catch (PhotoNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
