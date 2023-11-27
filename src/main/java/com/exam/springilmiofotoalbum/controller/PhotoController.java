@@ -3,11 +3,14 @@ package com.exam.springilmiofotoalbum.controller;
 import com.exam.springilmiofotoalbum.dto.PhotoDto;
 import com.exam.springilmiofotoalbum.exceptions.PhotoNotFoundException;
 import com.exam.springilmiofotoalbum.model.Photo;
+import com.exam.springilmiofotoalbum.model.User;
+import com.exam.springilmiofotoalbum.repository.UserRepository;
 import com.exam.springilmiofotoalbum.service.CategoryService;
 import com.exam.springilmiofotoalbum.service.PhotoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,10 +31,20 @@ public class PhotoController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     //Photo list with or without search word
     @GetMapping
-    public String index(@RequestParam Optional<String> search, Model model) {
-        model.addAttribute("photos", photoService.getList(search));
+    public String index(@RequestParam Optional<String> search, Model model, Authentication auth) {
+
+        if (auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("SUPERADMIN"))) {
+            model.addAttribute("photos", photoService.getList(search));
+        } else {
+            Optional<User> user = userRepository.findByEmail(auth.getName());
+
+            model.addAttribute("photos", photoService.getListById(search, user.get().getId()));
+        }
         return "photos/list";
     }
 
@@ -56,13 +69,15 @@ public class PhotoController {
 
     //store new photo
     @PostMapping("/create")
-    public String storePhoto(@Valid @ModelAttribute("photo") PhotoDto formPhoto, BindingResult bindingResult, Model model) {
+    public String storePhoto(@Valid @ModelAttribute("photo") PhotoDto formPhoto, BindingResult bindingResult, Model model, Authentication auth) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categoryService.getCategList());
             return "/photos/form";
         }
-
         try {
+            Optional<User> user = userRepository.findByEmail(auth.getName());
+            formPhoto.setUser(user.get());
+
             Photo photoSaved = photoService.savePhoto(formPhoto);
             return "redirect:/photos/show/" + photoSaved.getId();
         } catch (IOException e) {

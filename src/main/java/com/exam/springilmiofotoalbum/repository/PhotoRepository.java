@@ -8,4 +8,8 @@ import java.util.List;
 public interface PhotoRepository extends JpaRepository<Photo, Integer> {
 
     List<Photo> findByTitleContainingIgnoreCase(String keyword);
+
+    List<Photo> findByUserIdAndTitleContainingIgnoreCase(Integer userId, String keyword);
+
+    List<Photo> findByUserId(Integer id);
 }

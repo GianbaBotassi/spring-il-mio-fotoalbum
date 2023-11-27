@@ -23,6 +23,13 @@ public class PhotoService {
         return photoRepository.findAll();
     }
 
+    public List<Photo> getListById(Optional<String> search, Integer id) {
+        if (search.isPresent()) {
+            return photoRepository.findByUserIdAndTitleContainingIgnoreCase(id, search.get());
+        }
+        return photoRepository.findByUserId(id);
+    }
+
     public Photo getPhoto(Integer id) {
         return photoRepository.findById(id).orElseThrow(() -> new PhotoNotFoundException("Photo not found"));
     }
@@ -53,10 +60,6 @@ public class PhotoService {
         return editPhoto(photo);
     }
 
-    public void deletePhoto(Integer id) {
-        Photo photoToDelete = photoRepository.findById(id).orElseThrow(() -> new PhotoNotFoundException("Photo not found"));
-        photoRepository.delete(photoToDelete);
-    }
 
     private static Photo convertDtoToPhoto(PhotoDto photoDto) throws IOException {
         Photo photoToSave = new Photo();
@@ -68,6 +71,9 @@ public class PhotoService {
         if (photoDto.getPicture() != null && !photoDto.getPicture().isEmpty()) {
             byte[] bytes = photoDto.getPicture().getBytes();
             photoToSave.setPicture(bytes);
+        }
+        if (photoDto.getUser() != null) {
+            photoToSave.setUser(photoDto.getUser());
         }
         return photoToSave;
     }
@@ -87,5 +93,10 @@ public class PhotoService {
         photoDto.setId(photo.getId());
 
         return photoDto;
+    }
+
+    public void deletePhoto(Integer id) {
+        Photo photoToDelete = photoRepository.findById(id).orElseThrow(() -> new PhotoNotFoundException("Photo not found"));
+        photoRepository.delete(photoToDelete);
     }
 }

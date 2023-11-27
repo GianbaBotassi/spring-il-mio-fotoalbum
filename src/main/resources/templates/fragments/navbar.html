@@ -32,9 +32,9 @@
 
             </ul>
         </div>
-        <div class="me-3">
-            <div class="mb-2" sec:authentication="name"></div>
-            <a class="btn btn-primary" href="/logout">Logout</a></div>
+        <div class="me-3 d-flex flex-column align-items-center">
+            <div sec:authorize="isAuthenticated()" class="mb-2" sec:authentication="principal.authorities"></div>
+            <a sec:authorize="isAuthenticated()" class="btn btn-primary" href="/logout">Logout</a></div>
     </div>
 </nav>
 </body>

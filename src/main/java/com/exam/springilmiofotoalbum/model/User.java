@@ -3,7 +3,9 @@ package com.exam.springilmiofotoalbum.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,11 +24,14 @@ public class User {
     @Column(name = "registered_at")
     private LocalDateTime registeredAt;
 
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Photo> photoList = new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "roles_users",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    Set<Role> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     //Getters and Setters
 
@@ -85,5 +90,13 @@ public class User {
     public void setRegisteredAt(LocalDateTime registeredAt) {
 
         this.registeredAt = registeredAt;
+    }
+
+    public List<Photo> getPhotoList() {
+        return photoList;
+    }
+
+    public void setPhotoList(List<Photo> photoList) {
+        this.photoList = photoList;
     }
 }

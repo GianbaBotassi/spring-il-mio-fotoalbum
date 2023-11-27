@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head th:insert="fragments/resources :: headResources('Photo Album')">
 </head>
 <body>
@@ -37,6 +37,7 @@
             <th scope="col">Categories</th>
             <th scope="col">Picture</th>
             <th scope="col">Actions</th>
+            <th scope="col" sec:authorize="hasAuthority('SUPERADMIN')">Owner</th>
         </tr>
         </thead>
         <tbody>
@@ -74,6 +75,7 @@
                     </button>
                 </form>
             </td>
+            <td sec:authorize="hasAuthority('SUPERADMIN')" th:text="*{user.firstName + ' ' + user.lastName}"></td>
         </tr>
         </tbody>
     </table>

@@ -1,6 +1,7 @@
 package com.exam.springilmiofotoalbum.dto;
 
 import com.exam.springilmiofotoalbum.model.Category;
+import com.exam.springilmiofotoalbum.model.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,8 @@ public class PhotoDto {
 
     private MultipartFile picture;
     private boolean visible;
+
+    private User user;
 
     private List<Category> categories = new ArrayList<>();
 
@@ -70,5 +73,13 @@ public class PhotoDto {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
