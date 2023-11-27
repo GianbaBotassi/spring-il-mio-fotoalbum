@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.Optional;
 
 @Controller
@@ -34,15 +35,16 @@ public class PhotoController {
     @Autowired
     private UserRepository userRepository;
 
+
     //Photo list with or without search word
     @GetMapping
     public String index(@RequestParam Optional<String> search, Model model, Authentication auth) {
+
 
         if (auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("SUPERADMIN"))) {
             model.addAttribute("photos", photoService.getList(search));
         } else {
             Optional<User> user = userRepository.findByEmail(auth.getName());
-
             model.addAttribute("photos", photoService.getListById(search, user.get().getId()));
         }
         return "photos/list";
@@ -50,13 +52,20 @@ public class PhotoController {
 
     //Show details photo
     @GetMapping({"/show/{id}"})
-    public String showDetails(@PathVariable Integer id, Model model) {
-        try {
-            model.addAttribute("photoDetail", photoService.getPhoto(id));
-        } catch (PhotoNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+    public String showDetails(@PathVariable Integer id, Model model, Authentication auth) throws AccessDeniedException {
+        Optional<User> user = userRepository.findByEmail(auth.getName());
+        Photo photo = photoService.getPhoto(id);
+
+        if (user.isPresent() && user.get().getId().equals(photo.getUser().getId())) {
+            try {
+                model.addAttribute("photoDetail", photo);
+            } catch (PhotoNotFoundException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            }
+            return "photos/show";
+        } else {
+            throw new AccessDeniedException("Access denied");
         }
-        return "photos/show";
     }
 
     //Form with new Photo
@@ -88,13 +97,20 @@ public class PhotoController {
 
     //Form edit photo with data
     @GetMapping("/edit/{id}")
-    public String editPhoto(@PathVariable Integer id, Model model) {
-        try {
-            model.addAttribute("photo", photoService.getPhotoDtoById(id));
-            model.addAttribute("categories", categoryService.getCategList());
-            return "/photos/form";
-        } catch (PhotoNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+    public String editPhoto(@PathVariable Integer id, Model model, Authentication auth) throws AccessDeniedException {
+        Optional<User> user = userRepository.findByEmail(auth.getName());
+        Photo photo = photoService.getPhoto(id);
+        if (user.isPresent() && user.get().getId().equals(photo.getUser().getId())) {
+
+            try {
+                model.addAttribute("photo", photoService.getPhotoDtoById(id));
+                model.addAttribute("categories", categoryService.getCategList());
+                return "/photos/form";
+            } catch (PhotoNotFoundException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            }
+        } else {
+            throw new AccessDeniedException("Access denied");
         }
     }
 
