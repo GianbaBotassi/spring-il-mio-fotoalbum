@@ -29,8 +29,8 @@ INSERT INTO categories_photos (photo_id, category_id) VALUES(6, 3);
 INSERT INTO categories_photos (photo_id, category_id) VALUES(6, 5);
 
 
+INSERT INTO roles (name) VALUES('SUPERADMIN');
 INSERT INTO roles (name) VALUES('ADMIN');
-INSERT INTO roles (name) VALUES('USER');
 
 INSERT INTO users (email, first_name, last_name, registered_at, password) VALUES('cighi@gmail.com', 'Cighi', 'Nudo', '2023-11-20 10:35', '{noop}cighi');
 INSERT INTO users (email, first_name, last_name, registered_at, password) VALUES('pinni@gmail.com', 'Pinni', 'Renata', '2023-11-20 10:35','{noop}pinni');
