@@ -20,6 +20,7 @@
           </li>
           <button
             type="button"
+            style="max-width: 200px"
             class="btn btn-warning rounded"
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"

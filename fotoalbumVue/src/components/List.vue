@@ -2,7 +2,12 @@
   <navbar />
   <div class="container text-center">
     <div class="d-flex justify-content-center align-items-center gap-2">
-      <form @submit.prevent="searchPhoto(searchWord)" class="d-flex gap-2">
+      <form
+        ref="photoSearchForm"
+        @submit.prevent="searchPhoto(searchWord)"
+        class="d-flex gap-2"
+      >
+        <button class="btn btn-primary" @click="resetForm">Reset</button>
         <input
           class="rounded bg-light text-dark"
           type="text"
@@ -50,6 +55,10 @@
               >
                 {{ cat.name }}
               </span>
+              <p class="mt-2">
+                <strong>Owner: </strong
+                >{{ photo.user.firstName + " " + photo.user.lastName }}
+              </p>
             </div>
           </div>
         </div>
@@ -69,6 +78,7 @@ export default {
     return {
       photos: [],
       urlApi: "http://localhost:8080/api/v1/photos",
+      searchWord: "",
     };
   },
   methods: {
@@ -91,6 +101,10 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    resetForm() {
+      this.searchWord = "";
+      this.$refs.photoSearchForm.reset();
     },
   },
   computed: {
