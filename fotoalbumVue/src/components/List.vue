@@ -28,7 +28,11 @@
               <!-- Converted img because coming from Db in bytes -->
               <img
                 style="width: 100%; height: 100%; object-fit: cover"
-                :src="'data:image/png;base64,' + photo.picture"
+                :src="
+                  photo.picture
+                    ? 'data:image/png;base64,' + photo.picture
+                    : 'https://wallpapers.com/images/featured/one-piece-pictures-bjm9tdff9yzguoup.jpg'
+                "
                 :alt="photo.title"
                 class="img-fluid card-img-top"
               />
