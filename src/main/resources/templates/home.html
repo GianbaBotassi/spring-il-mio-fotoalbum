@@ -19,6 +19,10 @@
         <div class="d-flex justify-content-center gap-4">
             <a class="btn btn-secondary" th:href="@{/photos}" sec:authorize="hasAuthority('ADMIN')">Explore
                 Photos</a>
+            <a class="btn btn-secondary" th:href="@{/categories}" sec:authorize="hasAuthority('SUPERADMIN')">Browse
+                Categories</a>
+            <a class="btn btn-secondary" th:href="@{/messages}" sec:authorize="hasAuthority('SUPERADMIN')">Read
+                Messages</a>
         </div>
     </div>
 </div>

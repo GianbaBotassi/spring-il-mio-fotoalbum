@@ -56,7 +56,7 @@ public class PhotoController {
         Optional<User> user = userRepository.findByEmail(auth.getName());
         Photo photo = photoService.getPhoto(id);
 
-        if (user.isPresent() && user.get().getId().equals(photo.getUser().getId())) {
+        if (user.isPresent() && user.get().getId().equals(photo.getUser().getId()) || auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("SUPERADMIN"))) {
             try {
                 model.addAttribute("photoDetail", photo);
             } catch (PhotoNotFoundException e) {

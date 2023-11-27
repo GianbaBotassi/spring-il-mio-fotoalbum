@@ -7,7 +7,7 @@ INSERT INTO users (email, first_name, last_name, registered_at, password) VALUES
 INSERT INTO users (email, first_name, last_name, registered_at, password) VALUES('climbing@gmail.com', 'Climbing', 'Everyday', '2023-11-20 10:35','{noop}climbing');
 
 INSERT INTO roles_users (user_id, role_id) VALUES(1, 1);
-INSERT INTO roles_users (user_id, role_id) VALUES(1, 2);
+--INSERT INTO roles_users (user_id, role_id) VALUES(1, 2);
 INSERT INTO roles_users (user_id, role_id) VALUES(2, 2);
 INSERT INTO roles_users (user_id, role_id) VALUES(3, 2);
 INSERT INTO roles_users (user_id, role_id) VALUES(4, 2);
