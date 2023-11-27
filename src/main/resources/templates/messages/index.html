@@ -17,6 +17,9 @@
                                                 th:text="${#temporals.format(mess.received,'dd-MM-yyyy HH:mm:ss')}"></small>
                     </p>
                 </div>
+                <div class="text-end m-4">
+                    <a class="btn btn-primary" th:href="@{'mailto:' + ${mess.email}}">Answer</a>
+                </div>
             </div>
         </div>
     </div>
