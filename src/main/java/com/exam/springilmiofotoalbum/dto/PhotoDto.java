@@ -1,19 +1,16 @@
-package com.exam.springilmiofotoalbum.model;
+package com.exam.springilmiofotoalbum.dto;
 
-import jakarta.persistence.*;
+import com.exam.springilmiofotoalbum.model.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "photos")
-public class Photo {
+public class PhotoDto {
 
-    //Attributes
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id;
     @NotBlank(message = "Field title cannot be empty")
     @Size(max = 255, message = "Title must be at most 255 characters")
@@ -21,18 +18,11 @@ public class Photo {
     @NotBlank(message = "Field description cannot be empty")
     @Size(max = 1000, message = "Description must be at most 1000 characters")
     private String description;
-    @Lob
-    @Column(length = 16777215)
-    private byte[] picture;
+
+    private MultipartFile picture;
     private boolean visible;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "categories_photos",
-            joinColumns = @JoinColumn(name = "photo_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
-
-    //Getters and setters
 
     public Integer getId() {
         return id;
@@ -58,11 +48,11 @@ public class Photo {
         this.description = description;
     }
 
-    public byte[] getPicture() {
+    public MultipartFile getPicture() {
         return picture;
     }
 
-    public void setPicture(byte[] picture) {
+    public void setPicture(MultipartFile picture) {
         this.picture = picture;
     }
 

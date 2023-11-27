@@ -1,6 +1,6 @@
 <template>
+  <navbar />
   <div class="container text-center">
-    <h2>Photo Album</h2>
     <div class="d-flex justify-content-center align-items-center gap-2">
       <form @submit.prevent="searchPhoto(searchWord)" class="d-flex gap-2">
         <input
@@ -17,7 +17,7 @@
   <div class="container-fluid mt-3">
     <div class="px-lg-5">
       <!-- Photo -->
-      <div class="row justify-content-center mt-2">
+      <div class="row mt-2">
         <div
           class="col-xl-3 col-lg-4 col-md-6 mb-4"
           v-for="(photo, idx) in visiblePhotos"
@@ -25,9 +25,10 @@
         >
           <div class="bg-white rounded shadow-sm">
             <div style="height: 200px; overflow: hidden">
+              <!-- Converted img because coming from Db in bytes -->
               <img
                 style="width: 100%; height: 100%; object-fit: cover"
-                :src="photo.picture"
+                :src="'data:image/png;base64,' + photo.picture"
                 :alt="photo.title"
                 class="img-fluid card-img-top"
               />
@@ -55,7 +56,11 @@
 
 <script>
 import axios from "axios";
+import navbar from "./navbar.vue";
 export default {
+  components: {
+    navbar,
+  },
   data() {
     return {
       photos: [],

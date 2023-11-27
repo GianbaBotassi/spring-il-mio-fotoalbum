@@ -59,10 +59,11 @@
                 </div>
                 <div th:unless="*{categories.size() > 0}">No categories</div>
             </td>
-            <td style="width: 200px; height: 100px; overflow: hidden;" class="rounded"><img class="rounded"
-                                                                                            style="width: 100%; height: 100%; object-fit: cover;"
-                                                                                            th:src="*{picture}"
-                                                                                            th:alt="*{description}">
+            <td style="width: 200px; height: 100px; overflow: hidden;" class="rounded">
+                <img class="rounded"
+                     style="width: 100%; height: 100%; object-fit: cover;"
+                     th:src="@{/files/picture/{id}(id=*{id})}"
+                     th:alt="*{description}">
             </td>
             <td class="gap-2">
                 <a th:href="@{/photos/show/{id}(id=*{id})}"><i class="fa-solid fa-circle-info"></i></a>

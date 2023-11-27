@@ -12,13 +12,20 @@
             method="POST"
             th:action="@{${actionUrl}}"
             th:object="${photo}"
+            enctype="multipart/form-data"
     >
         <div class="row">
             <div class="col-6 mb-3" th:insert="/fragments/components :: formField('text','Title','title')"></div>
             <div class="col-6 mb-3"
                  th:insert="/fragments/components :: formField('text','Description','description')"></div>
             <div class="col-6 mb-3"
-                 th:insert="/fragments/components :: formField('text','Photo Url','picture')"></div>
+                 th:insert="/fragments/components :: formField('file','Photo','picture')"></div>
+            <div th:if="${isEdit}">
+                <div class="col-md-6" style="width: 300px; height: 200px; overflow: hidden;">
+                    <img style="width: 100%; height: 100%; object-fit: cover;" th:src="@{/files/picture/{id}(id=*{id})}"
+                         alt="" class="img-fluid">
+                </div>
+            </div>
             <div class="col-7">
                 <div class="d-flex align-items-center justify-content-start gap-3 mb-3" id="visible">
                     <div class="form-check">

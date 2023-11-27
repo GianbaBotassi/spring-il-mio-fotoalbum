@@ -1,5 +1,6 @@
 package com.exam.springilmiofotoalbum.controller;
 
+import com.exam.springilmiofotoalbum.dto.PhotoDto;
 import com.exam.springilmiofotoalbum.exceptions.PhotoNotFoundException;
 import com.exam.springilmiofotoalbum.model.Photo;
 import com.exam.springilmiofotoalbum.service.CategoryService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -47,45 +49,54 @@ public class PhotoController {
     //Form with new Photo
     @GetMapping("/create")
     public String createPhoto(Model model) {
-        model.addAttribute("photo", new Photo());
+        model.addAttribute("photo", new PhotoDto());
         model.addAttribute("categories", categoryService.getCategList());
         return "photos/form";
     }
 
     //store new photo
     @PostMapping("/create")
-    public String storePhoto(@Valid @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult, Model model) {
+    public String storePhoto(@Valid @ModelAttribute("photo") PhotoDto formPhoto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categoryService.getCategList());
             return "/photos/form";
-        } else {
+        }
+
+        try {
             Photo photoSaved = photoService.savePhoto(formPhoto);
             return "redirect:/photos/show/" + photoSaved.getId();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     //Form edit photo with data
     @GetMapping("/edit/{id}")
     public String editPhoto(@PathVariable Integer id, Model model) {
         try {
-            model.addAttribute("photo", photoService.getPhoto(id));
+            model.addAttribute("photo", photoService.getPhotoDtoById(id));
             model.addAttribute("categories", categoryService.getCategList());
+            return "/photos/form";
         } catch (PhotoNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-        return "/photos/form";
     }
 
     //update photo
     @PostMapping("/edit/{id}")
-    public String updatePhoto(@Valid @PathVariable Integer id, @ModelAttribute("photo") Photo formPhoto, BindingResult bindingResult, Model model) {
+    public String updatePhoto(@Valid @PathVariable Integer id, @ModelAttribute("photo") PhotoDto formPhoto, BindingResult bindingResult, Model model) {
         formPhoto.setId(id);
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categoryService.getCategList());
             return "/photos/form";
         }
-        photoService.editPhoto(formPhoto);
-        return "redirect:/photos/show/" + formPhoto.getId();
+        try {
+            photoService.editPhoto(formPhoto);
+            return "redirect:/photos/show/" + formPhoto.getId();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //Delete photo
