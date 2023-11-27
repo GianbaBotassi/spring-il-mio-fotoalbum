@@ -1,5 +1,6 @@
 package com.exam.springilmiofotoalbum.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ public class User {
     private LocalDateTime registeredAt;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Photo> photoList = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

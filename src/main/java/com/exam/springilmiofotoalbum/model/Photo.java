@@ -1,6 +1,5 @@
 package com.exam.springilmiofotoalbum.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -28,7 +27,6 @@ public class Photo {
     private boolean visible;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY)
