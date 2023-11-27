@@ -61,7 +61,6 @@ public class CategoryController {
         } catch (CategoryNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-
         model.addAttribute("categories", categoryService.getCategList());
         return "redirect:/categories";
     }

@@ -42,11 +42,14 @@
                 class="img-fluid card-img-top"
               />
             </div>
+            <!-- Title -->
             <div class="p-4">
               <h5>{{ photo.title }}</h5>
+              <!-- Description -->
               <p class="small text-muted mb-2">
                 {{ photo.description }}
               </p>
+              <!-- Categories -->
               <span
                 v-for="(cat, idx) in photo.categories"
                 :key="idx"
@@ -55,6 +58,7 @@
               >
                 {{ cat.name }}
               </span>
+              <!-- Owner -->
               <p class="mt-2">
                 <strong>Owner: </strong
                 >{{ photo.user.firstName + " " + photo.user.lastName }}
@@ -82,6 +86,7 @@ export default {
     };
   },
   methods: {
+    // Get all list
     getList() {
       axios
         .get(this.urlApi)
@@ -92,6 +97,7 @@ export default {
           console.log(error);
         });
     },
+    // Axios call to filter
     searchPhoto(search) {
       axios
         .get("http://localhost:8080/api/v1/photos?search=" + search)
@@ -102,11 +108,13 @@ export default {
           console.log(error);
         });
     },
+    // Reset form and submit form
     resetForm() {
       this.searchWord = "";
       this.$refs.photoSearchForm.reset();
     },
   },
+  // computed to filter visible photos(cannot use condition v-if into v-for)
   computed: {
     visiblePhotos() {
       return this.photos.filter((photo) => photo.visible);

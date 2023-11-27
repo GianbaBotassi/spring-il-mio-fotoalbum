@@ -6,27 +6,33 @@
 <nav th:replace="fragments/navbar :: topNavbar('Photo List')"></nav>
 <div class="container">
     <h1 class="mt-4">Photo Detail</h1>
+<!--    Photo details-->
     <div id="photoDetail" th:object="${photoDetail}">
+<!--        Image-->
         <div class="row mt-4">
             <div class="col-md-6" style="width: 500px; height: 400px; overflow: hidden;">
                 <img style="width: 100%; height: 100%; object-fit: cover;" th:src="${photoDetail.picture} ? @{/files/picture/{id}(id=*{id})} : 'https://wallpapers.com/images/featured/one-piece-pictures-bjm9tdff9yzguoup.jpg'" alt="" class="img-fluid">
             </div>
+<!--            Title-->
             <div class="col-md-6">
                 <h2 th:text="*{#strings.capitalize(title)}" class="mt-4 pb-2"></h2>
-
+<!--            Description-->
                 <p>
                     <strong>Description: </strong>
                     <span th:text="*{#strings.capitalize(description)}"></span></p>
+<!--            Visibility-->
                 <p>
                     <strong>Visibility:</strong>
                     <span th:text="*{visible ? 'Visible' : 'Hidden'}"></span>
                 </p>
+<!--            Categories-->
                 <p><strong>Categories:</strong>
                 <span th:if="*{categories.size() > 0}">
                     <span th:style="'background-color: ' + ${cat.badgeColor} + '; color:white'" class="me-1 badge"
                           th:each="cat : *{categories}"
                           th:text="${cat.name}"></span>
                 </span>
+<!--                Alert if categories is empty-->
                 <div th:unless="*{categories.size() > 0}" class="alert alert-info">The list is empty</div>
                 <span th:unless="*{categories.size() > 0}">No categories selected</span>
                 </p>

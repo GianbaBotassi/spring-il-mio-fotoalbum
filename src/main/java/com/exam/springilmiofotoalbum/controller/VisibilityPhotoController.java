@@ -15,6 +15,7 @@ public class VisibilityPhotoController {
     @Autowired
     private PhotoService photoService;
 
+    //change visibility just clicking button
     @GetMapping("/{id}")
     public String getVis(@PathVariable Integer id) {
         Photo photo = photoService.getPhoto(id);

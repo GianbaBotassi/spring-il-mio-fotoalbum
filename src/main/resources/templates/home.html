@@ -17,7 +17,7 @@
     </div>
     <div sec:authorize="isAuthenticated()">
         <div class="d-flex justify-content-center gap-4">
-            <a class="btn btn-secondary" th:href="@{/photos}" sec:authorize="hasAuthority('ADMIN')">Explore
+            <a class="btn btn-secondary" th:href="@{/photos}" sec:authorize="isAuthenticated()">Explore
                 Photos</a>
             <a class="btn btn-secondary" th:href="@{/categories}" sec:authorize="hasAuthority('SUPERADMIN')">Browse
                 Categories</a>

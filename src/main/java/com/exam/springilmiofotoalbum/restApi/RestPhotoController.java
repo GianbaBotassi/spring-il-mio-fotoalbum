@@ -15,6 +15,7 @@ public class RestPhotoController {
     @Autowired
     private PhotoService photoService;
 
+    //Show every photo
     @GetMapping
     public List<Photo> getPizzasList(@RequestParam Optional<String> search) {
         return photoService.getList(search);

@@ -16,6 +16,7 @@ public class PhotoService {
     @Autowired
     private PhotoRepository photoRepository;
 
+    //get List with or without search keyword
     public List<Photo> getList(Optional<String> search) {
         if (search.isPresent()) {
             return photoRepository.findByTitleContainingIgnoreCase(search.get());
@@ -23,6 +24,7 @@ public class PhotoService {
         return photoRepository.findAll();
     }
 
+    //Get List from ID with or without search keyword
     public List<Photo> getListById(Optional<String> search, Integer id) {
         if (search.isPresent()) {
             return photoRepository.findByUserIdAndTitleContainingIgnoreCase(id, search.get());
@@ -30,20 +32,23 @@ public class PhotoService {
         return photoRepository.findByUserId(id);
     }
 
+    //Get photo by id with exception
     public Photo getPhoto(Integer id) {
         return photoRepository.findById(id).orElseThrow(() -> new PhotoNotFoundException("Photo not found"));
     }
 
+    //Save photo
     public Photo savePhoto(Photo photo) {
         return photoRepository.save(photo);
     }
 
+    //// Save the Photo entity after it has been converted from the DTO
     public Photo savePhoto(PhotoDto photoDto) throws IOException {
         Photo photoToSave = convertDtoToPhoto(photoDto);
         return savePhoto(photoToSave);
     }
 
-
+    //Edit photo
     public Photo editPhoto(Photo formPhoto) {
         Photo photoToEdit = getPhoto(formPhoto.getId());
         photoToEdit.setTitle(formPhoto.getTitle());
@@ -55,12 +60,13 @@ public class PhotoService {
         return savePhoto(photoToEdit);
     }
 
+    //Edit photo with DTO argument
     public Photo editPhoto(PhotoDto formPhotoDto) throws IOException {
         Photo photo = convertDtoToPhoto(formPhotoDto);
         return editPhoto(photo);
     }
 
-
+    //Private method to convert DTO to photo
     private static Photo convertDtoToPhoto(PhotoDto photoDto) throws IOException {
         Photo photoToSave = new Photo();
         photoToSave.setId(photoDto.getId());
@@ -78,6 +84,7 @@ public class PhotoService {
         return photoToSave;
     }
 
+    //Get DTO photo by id
     public PhotoDto getPhotoDtoById(Integer id) throws PhotoNotFoundException {
         Photo photo = getPhoto(id);
         return convertPhotoToDto(photo);
@@ -95,6 +102,7 @@ public class PhotoService {
         return photoDto;
     }
 
+    //Delete photo
     public void deletePhoto(Integer id) {
         Photo photoToDelete = photoRepository.findById(id).orElseThrow(() -> new PhotoNotFoundException("Photo not found"));
         photoRepository.delete(photoToDelete);

@@ -14,6 +14,7 @@ public class RestMessageController {
     @Autowired
     private MessageService messageService;
 
+    //Method to receive messages from FE
     @PostMapping
     public Message storeMessage(@Valid @RequestBody Message objMessage) {
         return messageService.saveMessage(objMessage);
